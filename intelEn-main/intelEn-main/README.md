@@ -1,1 +1,0 @@
-# Artificial Intelligence-related folders
