@@ -1,0 +1,33 @@
+# 실습2 : 빠져있던 petal_length를 그림에 함께 표현 하기
+
+import plotly.express as px
+
+df = px.data.iris()
+fig = px.scatter_3d(df, x='sepal_length', y='sepal_width', z='petal_width', color='species', opacity = 0.5, size = 'petal_length', size_max=25) # petal_length를 제외하여 3차원 공간 구성
+fig.show()
+#
+#
+#
+# 실습3: 반복문을 사용하여 0~9까지 데이터셋 예측 및 정확도 확인
+
+from sklearn import datasets
+from sklearn import svm
+
+digit=datasets.load_digits()
+
+# svm의 분류기 모델 SC를 학습
+s=svm.SVC(gamma=0.1,C=10)
+s.fit(digit.data,digit.target) # digit 데이터로 모델링
+
+# 훈련 집합의 앞에 있는 샘플 3개를 새로운 샘플로 간주하고 인식해봄
+for i in range(0, 10):
+  new_d=[digit.data[i]]
+  res=s.predict(new_d)
+  print("예측값은", res)
+  print("참값은", digit.target[i])
+
+# 훈련 집합을 테스트 집합으로 간주하여 인식해보고 정확률을 측정
+res=s.predict(digit.data)
+correct=[i for i in range(len(res)) if res[i]==digit.target[i]]
+accuracy=len(correct)/len(res)
+print("화소 특징을 사용했을 때 정확률=",accuracy*100, "%")
